@@ -1,0 +1,6 @@
+<jarch version="0.1.5">
+<ruleset name="application-module-dependencies">
+<violation message="LAYER: 'util' must not import from 'service' in module 'jarch' according to layer-spec 'layers'" class="com.boothj5.jarch.util.SomeClazz" lineNumber="1" line="import com.boothj5.jarch.service.AnotherClazz;"/>
+<violation message="MODULE: 'A' must not import from 'B'" class="com.boothj5.jarch.A.SomeClazz" lineNumber="3" line="com.boothj5.jarch.B.SomeClazz;"/>
+</ruleset>
+</jarch>

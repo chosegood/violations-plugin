@@ -6,20 +6,23 @@ import hudson.plugins.violations.model.FullFileModel;
 import hudson.plugins.violations.model.Severity;
 import hudson.plugins.violations.model.Violation;
 import hudson.plugins.violations.parse.AbstractTypeParser;
+import hudson.plugins.violations.types.gendarme.GendarmeParser;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class JArchParser extends AbstractTypeParser {
 
+    static final Logger logger = Logger.getLogger(JArchParser.class.toString());
     static final String TYPE_NAME = "jarch";
 
-    
     /**
      * Parse the JSLint xml file.
      * @throws IOException if there is a problem reading the file.
      * @throws XmlPullParserException if there is a problem parsing the file.
      */
     protected void execute() throws IOException, XmlPullParserException {
+        logger.info("Starting JArch parsing");
 
         // ensure that the top level tag is "jarch"
         expectNextTag("jarch");
@@ -29,26 +32,17 @@ public class JArchParser extends AbstractTypeParser {
         while (skipToTag("ruleset")) {
             parseRulesetElement();
         }
+
     }
 
-    /*
-    <ruleset name="component-dependencies" >
-        <violation
-            message="MODULE: 'configuration' must not import from 'application'"
-            class="uk.co.corelogic.mosaic.configuration.admin.controller.AdminController"
-            lineNumber="16"
-            line="import uk.co.corelogic.mosaic.application.common.log.Loggable; "/>
-    </ruleset>
-    */
-
     private void parseRulesetElement() throws IOException, XmlPullParserException {
-
         String rulesetName = fixAbsolutePath(checkNotBlank("name"));
+        logger.info("Parsing JArch Ruleset[" + rulesetName + "]");
         getParser().next(); // consume "file" tag
         FullFileModel fileModel = getFileModel(rulesetName);
 
         // loop thru the child elements, getting the "issue" ones
-        while (skipToTag("issue")) {
+        while (skipToTag("violation")) {
             fileModel.addViolation(parseViolationElement());
         }
         endElement();
