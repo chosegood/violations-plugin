@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <jarch version="0.1.5">
 <ruleset name="application-module-dependencies">
 <violation message="LAYER: 'util' must not import from 'service' in module 'jarch' according to layer-spec 'layers'" class="com.boothj5.jarch.util.SomeClazz" lineNumber="1" line="import com.boothj5.jarch.service.AnotherClazz;"/>
