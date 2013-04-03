@@ -6,7 +6,6 @@ import hudson.plugins.violations.model.FullFileModel;
 import hudson.plugins.violations.model.Severity;
 import hudson.plugins.violations.model.Violation;
 import hudson.plugins.violations.parse.AbstractTypeParser;
-import hudson.plugins.violations.types.gendarme.GendarmeParser;
 
 import java.io.IOException;
 import java.util.logging.Logger;
