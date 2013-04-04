@@ -1,6 +1,3 @@
-/*
- * Copyright 2013 Corelogic Ltd All Rights Reserved.
- */
 package hudson.plugins.violations.types.jarch;
 
 import static org.junit.Assert.*;
