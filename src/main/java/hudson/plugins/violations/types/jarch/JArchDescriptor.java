@@ -1,7 +1,7 @@
 package hudson.plugins.violations.types.jarch;
 
 import hudson.plugins.violations.TypeDescriptor;
-import hudson.plugins.violations.parse.AbstractTypeParser;
+import hudson.plugins.violations.ViolationsParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class JArchDescriptor
      * @return a new checkstyle parser.
      */
     @Override
-    public AbstractTypeParser createParser() {
+    public ViolationsParser createParser() {
         return new JArchParser();
     }
 
