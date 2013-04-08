@@ -78,6 +78,8 @@ public class JArchParser implements ViolationsParser {
                     if (attributesList != null) {
                         String messageAttribute = attributesList.getNamedItem("message") != null ? attributesList
                                 .getNamedItem("message").getNodeValue() : null;
+                        String fileAttribute = attributesList.getNamedItem("file") != null ? attributesList
+                                .getNamedItem("file").getNodeValue() : null;
                         String lineNumberAttribute = attributesList.getNamedItem("lineNumber") != null ? attributesList
                                 .getNamedItem("lineNumber").getNodeValue() : null;
                         String lineAttribute = attributesList.getNamedItem("line") != null ? attributesList
@@ -86,7 +88,7 @@ public class JArchParser implements ViolationsParser {
                                 .getNamedItem("class").getNodeValue() : null;
                         String typeAttribute = attributesList.getNamedItem("type") != null ? attributesList
                                 .getNamedItem("type").getNodeValue() : null;
-                        addViolation(absoluteFileFinder, messageAttribute, lineNumberAttribute, lineAttribute, classAttribute, typeAttribute);
+                        addViolation(absoluteFileFinder, messageAttribute, lineNumberAttribute, lineAttribute, classAttribute, typeAttribute, fileAttribute);
                     }
                 }
 
@@ -99,13 +101,13 @@ public class JArchParser implements ViolationsParser {
         }
     }
 
-    void addViolation(AbsoluteFileFinder absoluteFileFinder, String messageAttribute, String lineNumberAttribute,
-            String lineAttribute, String classAttribute, String typeAttribute) {
+    void addViolation(final AbsoluteFileFinder absoluteFileFinder, final String messageAttribute, final String lineNumberAttribute,
+            final String lineAttribute, final String classAttribute, final String typeAttribute, final String fileAttribute) {
 
         String classPath= resolveFullClassName(classAttribute);
         logger.log(Level.INFO, "Adding violation for class[" + classPath + "]");
 
-        File sourceFile = absoluteFileFinder.getFileForName(classPath);
+        File sourceFile = absoluteFileFinder.getFileForName(fileAttribute);
         String className = getRelativeName(classPath, sourceFile);
         logger.log(Level.FINE, "Resolved classAttribute[" + classAttribute + "] with file[" + sourceFile.getName() + "] as [" + className + "]");
 
