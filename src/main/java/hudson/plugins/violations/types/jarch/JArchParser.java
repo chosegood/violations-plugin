@@ -107,7 +107,8 @@ public class JArchParser implements ViolationsParser {
         String classPath= resolveFullClassName(classAttribute);
         logger.log(Level.INFO, "Adding violation for class[" + classPath + "]");
 
-        File sourceFile = absoluteFileFinder.getFileForName("src/mosaic/main/java/" + classPath);
+        String sourceRoot = "src" + File.separator + "mosaic" + File.separator + "main" + File.separator + "java" + File.separator;
+        File sourceFile = absoluteFileFinder.getFileForName(sourceRoot + classPath);
         String className = getRelativeName(classPath, sourceFile);
         logger.log(Level.FINE, "Resolved class[" + classAttribute + "] as file[" + (sourceFile != null ? sourceFile.getName() : null) + "] with Class [" + className + "] with path [" + classPath + "]"); 
         Violation violation = new Violation();
