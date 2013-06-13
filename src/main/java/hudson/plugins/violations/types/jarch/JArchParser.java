@@ -107,10 +107,11 @@ public class JArchParser implements ViolationsParser {
         String classPath= resolveFullClassName(classAttribute);
         logger.log(Level.INFO, "Adding violation for class[" + classPath + "]");
 
-        String sourceRoot = "src" + File.separator + "mosaic" + File.separator + "main" + File.separator + "java" + File.separator;
+//        String sourceRoot = "src" + File.separator + "mosaic" + File.separator + "main" + File.separator + "java" + File.separator;
+        String sourceRoot = "src/mosaic/main/java/";
         File sourceFile = absoluteFileFinder.getFileForName(sourceRoot + classPath);
         String className = getRelativeName(classPath, sourceFile);
-        logger.log(Level.FINE, "Resolved class[" + classAttribute + "] as file[" + (sourceFile != null ? sourceFile.getName() : null) + "] with Class [" + className + "] with path [" + classPath + "]"); 
+        logger.log(Level.FINE, "Resolved class[" + classAttribute + "] as file[" + (sourceFile != null ? sourceFile.getName() : null) + "] with Class [" + className + "] with path [" + classPath + "]");
         Violation violation = new Violation();
         violation.setLine(lineNumberAttribute);
         violation.setMessage(messageAttribute);
@@ -149,7 +150,7 @@ public class JArchParser implements ViolationsParser {
         }
 
         filename = filename+ ".java";
-        return filename; 
+        return filename;
     }
 
     private String getRelativeName(String name, File file) {
