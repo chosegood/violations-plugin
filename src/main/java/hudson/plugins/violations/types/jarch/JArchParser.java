@@ -105,7 +105,7 @@ public class JArchParser implements ViolationsParser {
             final String lineAttribute, final String classAttribute, final String typeAttribute, final String fileAttribute) {
 
         String classPath= resolveFullClassName(classAttribute);
-        logger.log(Level.INFO, "Adding violation for class[" + classPath + "]");
+        logger.log(Level.INFO, ">>>>>Adding violation for class[" + classPath + "]");
 
 //        String sourceRoot = "src" + File.separator + "mosaic" + File.separator + "main" + File.separator + "java" + File.separator;
         String sourceRoot = "src/mosaic/main/java/";
@@ -129,14 +129,20 @@ public class JArchParser implements ViolationsParser {
         FullFileModel fileModel = this.model.getFileModel(classPath);
         if (sourceFile != null && sourceFile.exists()) {
             logger.log(Level.FINE, "Source File for [" + classPath + "] Source[" + sourceFile.getAbsolutePath() + "] lastModified[" + sourceFile.lastModified() + "]");
+
+            fileModel.setDisplayName(sourceRoot + className);
             fileModel.setSourceFile(sourceFile);
             fileModel.setLastModified(sourceFile.lastModified());
+            logger.log(Level.FINE, "fileModel.getDisplayName() : " + fileModel.getDisplayName());
             logger.log(Level.FINE, "fileModel.getSourceFile() : " + fileModel.getSourceFile().getAbsolutePath());
             logger.log(Level.FINE, "fileModel.getDisplayName() : " + fileModel.getDisplayName());
         } else {
             logger.log(Level.WARNING, "Source File for [" + classPath + "] not found");
         }
+
         fileModel.addViolation(violation);
+
+        logger.log(Level.INFO, "<<<<<Ending violation for class[" + classPath + "]");
     }
 
     String resolveFullClassName(String classname) {
