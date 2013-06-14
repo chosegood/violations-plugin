@@ -107,8 +107,8 @@ public class JArchParser implements ViolationsParser {
         String classPath= resolveFullClassName(classAttribute);
         logger.log(Level.INFO, ">>>>>Adding violation for class[" + classPath + "]");
 
-//        String sourceRoot = "src" + File.separator + "mosaic" + File.separator + "main" + File.separator + "java" + File.separator;
-        String sourceRoot = "src/mosaic/main/java/";
+        String sourceRoot = "src" + File.separator + "mosaic" + File.separator + "main" + File.separator + "java" + File.separator;
+        //String sourceRoot = "src/mosaic/main/java/";
         File sourceFile = absoluteFileFinder.getFileForName(sourceRoot + classPath);
         String className = getRelativeName(classPath, sourceFile);
         logger.log(Level.FINE, "Resolved class[" + classAttribute + "] as file[" + (sourceFile != null ? sourceFile.getName() : null) + "] with Class [" + className + "] with path [" + classPath + "]");
@@ -129,13 +129,14 @@ public class JArchParser implements ViolationsParser {
         FullFileModel fileModel = this.model.getFileModel(classPath);
         if (sourceFile != null && sourceFile.exists()) {
             logger.log(Level.FINE, "Source File for [" + classPath + "] Source[" + sourceFile.getAbsolutePath() + "] lastModified[" + sourceFile.lastModified() + "]");
-
-            fileModel.setDisplayName(sourceRoot + className);
+            String fullSourcePath = sourceRoot + className;
+            fullSourcePath = fullSourcePath.replace("\\","/");
+            fileModel.setDisplayName(fullSourcePath);
             fileModel.setSourceFile(sourceFile);
             fileModel.setLastModified(sourceFile.lastModified());
-            logger.log(Level.FINE, "fileModel.getDisplayName() : " + fileModel.getDisplayName());
-            logger.log(Level.FINE, "fileModel.getSourceFile() : " + fileModel.getSourceFile().getAbsolutePath());
-            logger.log(Level.FINE, "fileModel.getDisplayName() : " + fileModel.getDisplayName());
+            logger.log(Level.FINE, "fileModel: getDisplayName ()[" + fileModel.getDisplayName()
+                    + "] getSourceFile() [" + fileModel.getSourceFile().getAbsolutePath()
+                    + "] getLastModified() [" + fileModel.getLastModified() + "]");
         } else {
             logger.log(Level.WARNING, "Source File for [" + classPath + "] not found");
         }
