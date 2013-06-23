@@ -130,7 +130,7 @@ public class JArchParser implements ViolationsParser {
 //            String fullSourcePath = sourceRoot + className;
 //            fullSourcePath = fullSourcePath.replace("\\","/");
 //            fileModel.setDisplayName(fullSourcePath);
-//            fileModel.setDisplayName(className.replace("\\","/"));
+            fileModel.setDisplayName(className.replace("\\","/"));
             fileModel.setSourceFile(sourceFile);
             fileModel.setLastModified(sourceFile.lastModified());
 
