@@ -107,11 +107,8 @@ public class JArchParser implements ViolationsParser {
         String classPath= resolveFullClassName(classAttribute);
         logger.log(Level.INFO, ">>>>>Adding violation for class[" + classPath + "]");
 
-        String sourceRoot = "src" + File.separator + "mosaic" + File.separator + "main" + File.separator + "java" + File.separator;
-        //String sourceRoot = "src/mosaic/main/java/";
-        File sourceFile = absoluteFileFinder.getFileForName(sourceRoot + classPath);
+        File sourceFile = absoluteFileFinder.getFileForName(classPath);
         String className = getRelativeName(classPath, sourceFile);
-        logger.log(Level.FINE, "Resolved class[" + classAttribute + "] as file[" + (sourceFile != null ? sourceFile.getName() : null) + "] with Class [" + className + "] with path [" + classPath + "]");
         Violation violation = new Violation();
         violation.setLine(lineNumberAttribute);
         violation.setMessage(messageAttribute);
@@ -126,17 +123,29 @@ public class JArchParser implements ViolationsParser {
             violation.setSeverityLevel(Severity.MEDIUM_VALUE);
         }
 
+        logger.log(Level.FINE, "Resolved class[" + classAttribute + "] as file[" + (sourceFile != null ? sourceFile.getName() : null) + "] with Class [" + className + "] with path [" + classPath + "]");
+
         FullFileModel fileModel = this.model.getFileModel(classPath);
         if (sourceFile != null && sourceFile.exists()) {
-            logger.log(Level.FINE, "Source File for [" + classPath + "] Source[" + sourceFile.getAbsolutePath() + "] lastModified[" + sourceFile.lastModified() + "]");
-            String fullSourcePath = sourceRoot + className;
-            fullSourcePath = fullSourcePath.replace("\\","/");
-            fileModel.setDisplayName(fullSourcePath);
+//            String fullSourcePath = sourceRoot + className;
+//            fullSourcePath = fullSourcePath.replace("\\","/");
+//            fileModel.setDisplayName(fullSourcePath);
+//            fileModel.setDisplayName(className.replace("\\","/"));
             fileModel.setSourceFile(sourceFile);
             fileModel.setLastModified(sourceFile.lastModified());
-            logger.log(Level.FINE, "fileModel: getDisplayName ()[" + fileModel.getDisplayName()
-                    + "] getSourceFile() [" + fileModel.getSourceFile().getAbsolutePath()
-                    + "] getLastModified() [" + fileModel.getLastModified() + "]");
+
+//            logger.log(Level.FINE, "Source File for [" + classPath
+//                    + "] fileModel: getDisplayName[" + fileModel.getDisplayName()
+//                    + "] absolutePath [" + fileModel.getSourceFile().getAbsolutePath()
+//                    + "] name [" + fileModel.getSourceFile().getName()
+//                    + "] getLastModified() [" + fileModel.getLastModified() + "]");
+
+            logger.log(Level.FINE, "Source File for [" + classPath + "]");
+            logger.log(Level.FINE, "fileModel: getDisplayName[" + fileModel.getDisplayName() + "]");
+            logger.log(Level.FINE, "absolutePath [" + fileModel.getSourceFile().getAbsolutePath() + "]");
+            logger.log(Level.FINE, "name [" + fileModel.getSourceFile().getName() + "]");
+            logger.log(Level.FINE, "getLastModified() [" + fileModel.getLastModified() + "]");
+
         } else {
             logger.log(Level.WARNING, "Source File for [" + classPath + "] not found");
         }
